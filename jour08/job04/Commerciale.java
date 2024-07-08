@@ -1,5 +1,6 @@
 package jour08.job04;
 
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -37,7 +38,7 @@ public class Commerciale {
         Commerciale commerciale = new Commerciale();
         boolean running = true;
         int option = -1;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
         while (running) {
             System.out.println("Gestion commerciale\n");
             System.out.println("1: Ajouter article");
@@ -65,6 +66,7 @@ public class Commerciale {
                     scanner.nextLine();
                     System.out.println("Quantité de Stock (int) :");
                     int quan = scanner.nextInt();
+                    scanner.nextLine();
                     Article article = new Article(ref, des, prix, quan);
                     commerciale.ajouterArticle(article);
                     System.out.println("Article ajouté");
@@ -95,6 +97,7 @@ public class Commerciale {
                     String adresse = scanner.nextLine();
                     System.out.print("Chiffre d'Affaire (double) : ");
                     double chiffreAffaire = scanner.nextDouble();
+                    scanner.nextLine();
                     Client client = new Client(identite, nomSocial, adresse, chiffreAffaire);
                     commerciale.ajouterClient(client);
                     System.out.println("Client ajouté");
@@ -103,6 +106,7 @@ public class Commerciale {
                 case 4:
                     System.out.print("Identité du client à supprimer: ");
                     identite = scanner.nextInt();
+                    scanner.nextLine();
                     client = commerciale.clients.stream()
                         .filter(c -> c.getIdentite() == identite)
                         .findFirst()
@@ -118,6 +122,7 @@ public class Commerciale {
                 case 5:
                     System.out.print("Numéro de Commande (int) : ");
                     int numeroCommande = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Date de Commande (string) : ");
                     String dateCommande = scanner.nextLine();
                     System.out.print("Identité du Client (int) : ");
@@ -138,6 +143,7 @@ public class Commerciale {
                 case 6:
                     System.out.print("Numéro de la commande à annuler: ");
                     numeroCommande = scanner.nextInt();
+                    scanner.nextLine();
                     Commande commande = commerciale.commandes.stream()
                         .filter(c -> c.getNumeroCommande() == numeroCommande)
                         .findFirst()
@@ -177,9 +183,12 @@ public class Commerciale {
             for (Commande c : commerciale.commandes) {
                 System.out.println("Numéro de Commande: " + c.getNumeroCommande());
                 System.out.println("Date de Commande: " + c.getDateCommande());
+                System.out.println("Client :");
                 c.getClient().affiche();
                 System.out.println();
             }
+
+            option = -1;
         }
         
         scanner.close();
